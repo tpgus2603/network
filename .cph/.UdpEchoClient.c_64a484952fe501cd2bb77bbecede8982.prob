@@ -1,0 +1,1 @@
+{"name":"Local: UdpEchoClient","url":"c:\\Users\\hyun\\.vscode\\network\\UdpEchoClient.c","tests":[{"id":1727066408017,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\hyun\\.vscode\\network\\UdpEchoClient.c","group":"local","local":true}
