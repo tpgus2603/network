@@ -9,6 +9,7 @@
 #include <ws2tcpip.h>
 
 
+
 #define BUFSIZE 1024
 
 // 동작 형식 코드 정의
@@ -72,15 +73,14 @@ int main(int argc, char* argv[]) {
         err_quit("bind()");
     }
 
-    printf("UDP  Server is running on %s:%d\n", server_ip, server_port);
+    printf("UDP Echo Server is running on %s:%d\n", server_ip, server_port);
 
-    // 통계 정보 초기화
     unsigned long total_bytes = 0;
     unsigned long total_messages = 0;
 
     while(1) {
         memset(buf, 0, BUFSIZE);
-        retval = recvfrom(sock, buf, BUFSIZE, 0, (SOCKADDR*)&clientaddr, &clientaddr_len);
+        retval = recvfrom(sock, buf, BUFSIZE, 0, (SOCKADDR*)&clientaddr, &clientaddr_len);//buf에 메세지저장
         if(retval == SOCKET_ERROR) {
             fprintf(stderr, "recvfrom() error: %d\n", WSAGetLastError());
             continue;
@@ -119,7 +119,6 @@ int main(int argc, char* argv[]) {
                     printf("[echo] %d 바이트 전송\n", retval);
                 }
                 break;
-
             case 0x0002:
                 // Chat 동작: 서버 운영자가 입력한 메시지를 클라이언트에게 전송
                 {
@@ -131,7 +130,6 @@ int main(int argc, char* argv[]) {
                     if(len > 0 && server_reply[len-1] == '\n') {
                         server_reply[len-1] = '\0';
                     }
-
                     int reply_len = strlen(server_reply);
                     send_buf[0] = 0x00;
                     send_buf[1] = 0x02;
@@ -144,7 +142,6 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 break;
-
             case 0x0003:
                 // Stat 동작: 통계 정보 전송
                 {
@@ -176,7 +173,6 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 break;
-
             case 0x0004:
                 // Quit 동작: 서버 종료
                 printf(" 서버를 종료.\n");
